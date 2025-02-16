@@ -1,0 +1,28 @@
+--creo il data warehouse
+CREATE DATABASE taxi_data
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LOCALE_PROVIDER = 'libc'
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+-- Creo una tabella per il data warehouse
+CREATE TABLE taxi (
+    taxi_id VARCHAR(50),     -- Colonna per l'ID del taxi
+    date_time TIMESTAMP,     -- Colonna per data e ora
+    longitude NUMERIC(10, 6),-- Colonna per longitudine
+    latitude NUMERIC(10, 6)  -- Colonna per latitudine
+);
+
+--inserisco  dati aggregati nella tabella
+COPY taxi (taxi_id, date_time, longitude, latitude)
+FROM 'C:\Users\paolo\Desktop\progetto ict\input.txt'
+DELIMITER ',' 
+CSV;
+
+--alternativa in caso il codice sopra non funzioni (PSQL tool)
+--\copy taxi (taxi_id, date_time, longitude, latitude) FROM 'C:\Users\paolo\Desktop\progetto ict\input.txt' WITH (FORMAT csv, HEADER, DELIMITER ',');
+
+--query per visualizzare i dati caricati
+SELECT * FROM taxi
